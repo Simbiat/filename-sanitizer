@@ -19,7 +19,7 @@
 	},
     "autoload": {
         "psr-4": {
-            "SafeFileName\\": "src/"
+            "Simbiat\\": "src/"
         }
     },
 	"support": {
