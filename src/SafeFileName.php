@@ -4,10 +4,10 @@ namespace Simbiat;
 
 class SafeFileName
 {
-    private array $needles = [];
-    private array $needles_ext = [];
+    private array $needles;
+    private array $needles_ext;
     private array $replaces = [
-        #Remove control characters and whitespaces excep regular space
+        #Remove control characters and whitespaces except regular space
         '/[[:cntrl:]]/iu' => '',
         #Replace whitespace with regular space (hex 20)
         '/[\r\n\t\f\v\0\x{00A0}\x{2002}-\x{200B}\x{202F}\x{205F}\x{3000}\x{FEFF}]/iu' => ' ',
@@ -28,7 +28,6 @@ class SafeFileName
         '/^(CoN)(\.*.*)$/u' => 'ＣｏＮ$2',
         '/^(Con)(\.*.*)$/u' => 'Ｃｏｎ$2',
         '/^(cON)(\.*.*)$/u' => 'ｃＯＮ$2',
-        '/^(COn)(\.*.*)$/u' => 'ＣＯｎ$2',
         '/^(coN)(\.*.*)$/u' => 'ｃｏＮ$2',
         '/^(PRN)(\.*.*)$/u' => 'ＰＲＮ$2',
         '/^(prn)(\.*.*)$/u' => 'ｐｒｎ$2',
@@ -36,7 +35,6 @@ class SafeFileName
         '/^(PrN)(\.*.*)$/u' => 'ＰｒＮ$2',
         '/^(Prn)(\.*.*)$/u' => 'Ｐｒｎ$2',
         '/^(pRN)(\.*.*)$/u' => 'ｐＲＮ$2',
-        '/^(PRn)(\.*.*)$/u' => 'ＰＲｎ$2',
         '/^(prN)(\.*.*)$/u' => 'ｐｒＮ$2',
         '/^(AUX)(\.*.*)$/u' => 'ＡＵＸ$2',
         '/^(aux)(\.*.*)$/u' => 'ａｕｘ$2',
@@ -44,7 +42,6 @@ class SafeFileName
         '/^(AuX)(\.*.*)$/u' => 'ＡｕＸ$2',
         '/^(Aux)(\.*.*)$/u' => 'Ａｕｘ$2',
         '/^(aUX)(\.*.*)$/u' => 'ａＵＸ$2',
-        '/^(AUx)(\.*.*)$/u' => 'ＡＵｘ$2',
         '/^(auX)(\.*.*)$/u' => 'ａｕＸ$2',
         '/^(NUL)(\.*.*)$/u' => 'ＮＵＬ$2',
         '/^(nul)(\.*.*)$/u' => 'ｎｕｌ$2',
@@ -52,7 +49,6 @@ class SafeFileName
         '/^(NuL)(\.*.*)$/u' => 'ＮｕＬ$2',
         '/^(Nul)(\.*.*)$/u' => 'Ｎｕｌ$2',
         '/^(nUL)(\.*.*)$/u' => 'ｎＵＬ$2',
-        '/^(NUl)(\.*.*)$/u' => 'ＮＵｌ$2',
         '/^(nuL)(\.*.*)$/u' => 'ｎｕＬ$2',
         '/^(COM)(\d{1,})(\.*.*)$/u' => 'ＣＯＭ$2$3',
         '/^(com)(\d{1,})(\.*.*)$/u' => 'ｃｏｍ$2$3',
@@ -60,7 +56,6 @@ class SafeFileName
         '/^(CoM)(\d{1,})(\.*.*)$/u' => 'ＣｏＭ$2$3',
         '/^(Com)(\d{1,})(\.*.*)$/u' => 'Ｃｏｍ$2$3',
         '/^(cOM)(\d{1,})(\.*.*)$/u' => 'ｃＯＭ$2$3',
-        '/^(COm)(\d{1,})(\.*.*)$/u' => 'ＣＯｍ$2$3',
         '/^(coM)(\d{1,})(\.*.*)$/u' => 'ｃｏＭ$2$3',
         '/^(LPT)(\d{1,})(\.*.*)$/u' => 'ＬＰＴ$2$3',
         '/^(lpt)(\d{1,})(\.*.*)$/u' => 'ｌｐｔ$2$3',
@@ -68,11 +63,10 @@ class SafeFileName
         '/^(LpT)(\d{1,})(\.*.*)$/u' => 'ＬｐＴ$2$3',
         '/^(Lpt)(\d{1,})(\.*.*)$/u' => 'Ｌｐｔ$2$3',
         '/^(lPT)(\d{1,})(\.*.*)$/u' => 'ｌＰＴ$2$3',
-        '/^(LPt)(\d{1,})(\.*.*)$/u' => 'ＬＰｔ$2$3',
         '/^(lpT)(\d{1,})(\.*.*)$/u' => 'ｌｐＴ$2$3',
     ];
-    #Some more characters, that you might want to replace with fullwidth alternatives, depedning on how you use the files
-    private $replaces_ext = [
+    #Some more characters, that you might want to replace with fullwidth alternatives, depending on how you use the files
+    private array $replaces_ext = [
         '/\[/iu' => '［',
         '/\]/iu' => '］',
         '/=/iu' => '＝',
@@ -98,14 +92,14 @@ class SafeFileName
         '/”/iu' => '＂',
         '/“/iu' => '＂',
     ];
-    
+
     public function __construct()
     {
         #Setting needles (characters to search for) in order not to duplicate the values and also cache them, in case we need to use the class for multiple strings
         $this->needles = array_keys($this->replaces);
         $this->needles_ext = array_keys($this->replaces_ext);
     }
-    
+
     public function sanitize(string $string, bool $extended = true): string
     {
         #Replace special characters
@@ -114,8 +108,6 @@ class SafeFileName
             $string = preg_replace($this->needles_ext, $this->replaces_ext, $string);
         }
         #Remove spaces and dots from right (spaces on the left are possible
-        $string = rtrim(rtrim(rtrim($string), '.'));
-        return $string;
+        return rtrim(rtrim(rtrim($string), '.'));
     }
 }
-?>
