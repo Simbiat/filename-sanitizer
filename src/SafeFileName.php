@@ -4,9 +4,7 @@ namespace Simbiat;
 
 class SafeFileName
 {
-    private array $needles;
-    private array $needles_ext;
-    private array $replaces = [
+    private static array $replaces = [
         #Remove control characters and whitespaces except regular space
         '/[[:cntrl:]]/iu' => '',
         #Replace whitespace with regular space (hex 20)
@@ -66,7 +64,7 @@ class SafeFileName
         '/^(lpT)(\d{1,})(\.*.*)$/u' => 'ｌｐＴ$2$3',
     ];
     #Some more characters, that you might want to replace with fullwidth alternatives, depending on how you use the files
-    private array $replaces_ext = [
+    private static array $replaces_ext = [
         '/\[/iu' => '［',
         '/\]/iu' => '］',
         '/=/iu' => '＝',
@@ -93,19 +91,12 @@ class SafeFileName
         '/“/iu' => '＂',
     ];
 
-    public function __construct()
-    {
-        #Setting needles (characters to search for) in order not to duplicate the values and also cache them, in case we need to use the class for multiple strings
-        $this->needles = array_keys($this->replaces);
-        $this->needles_ext = array_keys($this->replaces_ext);
-    }
-
-    public function sanitize(string $string, bool $extended = true): string
+    public static function sanitize(string $string, bool $extended = true): string
     {
         #Replace special characters
-        $string = preg_replace($this->needles, $this->replaces, $string);
+        $string = preg_replace(array_keys(self::$replaces), self::$replaces, $string);
         if ($extended) {
-            $string = preg_replace($this->needles_ext, $this->replaces_ext, $string);
+            $string = preg_replace(array_keys(self::$replaces_ext), self::$replaces_ext, $string);
         }
         #Remove spaces and dots from right (spaces on the left are possible
         return rtrim(rtrim(rtrim($string), '.'));
