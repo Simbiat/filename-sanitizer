@@ -1,7 +1,11 @@
 <?php
-declare(strict_types=1);
+declare(strict_types = 1);
+
 namespace Simbiat;
 
+/**
+ * Replace restricted characters or combinations in filenames
+ */
 class SafeFileName
 {
     private static array $replaces = [
@@ -90,7 +94,15 @@ class SafeFileName
         '/”/iu' => '＂',
         '/“/iu' => '＂',
     ];
-
+    
+    /**
+     * Replace restricted characters or combinations
+     * @param string $string   String to sanitize
+     * @param bool   $extended If `true` - replace some special characters (common for programming languages) with fullwidth alternatives, so that text will look similar, but will not work as actual code
+     * @param bool   $remove   If `true` - replace matches with empty string, instead of safe alternatives
+     *
+     * @return string
+     */
     public static function sanitize(string $string, bool $extended = true, bool $remove = false): string
     {
         #Replace special characters

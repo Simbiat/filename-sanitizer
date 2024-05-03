@@ -1,7 +1,10 @@
 {
     "name": "simbiat/filename-sanitizer",
     "type": "library",
-    "keywords": ["safe", "characters"],
+    "keywords": [
+        "safe",
+        "characters"
+    ],
     "description": "Small class to replace common characters that are restiricted in filenames.",
     "homepage": "https://github.com/Simbiat/filename-sanitizer",
     "license": "AGPL-3.0-or-later",
@@ -15,15 +18,15 @@
     ],
     "minimum-stability": "dev",
     "require": {
-		"php": ">=7.4"
-	},
+        "php": ">=7.4"
+    },
     "autoload": {
         "psr-4": {
             "Simbiat\\": "src/"
         }
     },
-	"support": {
-		"issues": "https://github.com/Simbiat/filename-sanitizer/issues",
-		"source": "https://github.com/Simbiat/filename-sanitizer"
-	}
+    "support": {
+        "issues": "https://github.com/Simbiat/filename-sanitizer/issues",
+        "source": "https://github.com/Simbiat/filename-sanitizer"
+    }
 }
