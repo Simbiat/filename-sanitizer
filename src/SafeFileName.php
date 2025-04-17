@@ -111,6 +111,6 @@ class SafeFileName
             $string = preg_replace(array_keys(self::$replaces_ext), ($remove ? '' : self::$replaces_ext), $string);
         }
         #Remove spaces and dots from right (spaces on the left are possible
-        return rtrim(rtrim(rtrim($string), '.'));
+        return mb_rtrim(mb_rtrim(mb_rtrim($string, encoding: 'UTF-8'), '.', 'UTF-8'), encoding: 'UTF-8');
     }
 }
