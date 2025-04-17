@@ -23,7 +23,7 @@ class SafeFileName
         '/\|/iu' => '｜',
         '/\?/iu' => '？',
         '/\*/iu' => '＊',
-        #Replace Windows specific reserved words while retaining case
+        #Replace Windows specific reserved words while retaining the case
         '/^(CON)(\..*)?$/u' => 'ＣＯＮ$2',
         '/^(con)(\..*)?$/u' => 'ｃｏｎ$2',
         '/^(COn)(\..*)?$/u' => 'ＣＯｎ$2',
@@ -67,7 +67,7 @@ class SafeFileName
         '/^(lPT)(\d)(\..*)?$/u' => 'ｌＰＴ$2$3',
         '/^(lpT)(\d)(\..*)?$/u' => 'ｌｐＴ$2$3',
     ];
-    #Some more characters, that you might want to replace with fullwidth alternatives, depending on how you use the files
+    #Some more characters that you might want to replace with fullwidth alternatives, depending on how you use the files
     private static array $replaces_ext = [
         '/\[/iu' => '［',
         '/\]/iu' => '］',
@@ -98,7 +98,7 @@ class SafeFileName
     /**
      * Replace restricted characters or combinations
      * @param string $string   String to sanitize
-     * @param bool   $extended If `true` - replace some special characters (common for programming languages) with fullwidth alternatives, so that text will look similar, but will not work as actual code
+     * @param bool   $extended If `true` - replace some special characters (common for programming languages) with fullwidth alternatives, so that the text will look similar but will not work as actual code
      * @param bool   $remove   If `true` - replace matches with empty string, instead of safe alternatives
      *
      * @return string
@@ -110,7 +110,7 @@ class SafeFileName
         if ($extended) {
             $string = preg_replace(array_keys(self::$replaces_ext), ($remove ? '' : self::$replaces_ext), $string);
         }
-        #Remove spaces and dots from right (spaces on the left are possible
+        #Remove spaces and dots from the right (spaces on the left are possible
         return mb_rtrim(mb_rtrim(mb_rtrim($string, encoding: 'UTF-8'), '.', 'UTF-8'), encoding: 'UTF-8');
     }
 }

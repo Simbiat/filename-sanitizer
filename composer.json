@@ -5,7 +5,7 @@
         "safe",
         "characters"
     ],
-    "description": "Small class to replace common characters that are restiricted in filenames.",
+    "description": "Small class to replace common characters that are restricted in filenames.",
     "homepage": "https://github.com/Simbiat/filename-sanitizer",
     "license": "AGPL-3.0-or-later",
     "authors": [
