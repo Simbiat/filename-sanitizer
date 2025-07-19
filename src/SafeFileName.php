@@ -106,9 +106,9 @@ class SafeFileName
     public static function sanitize(string $string, bool $extended = true, bool $remove = false): string
     {
         #Replace special characters
-        $string = preg_replace(array_keys(self::$replaces), ($remove ? '' : self::$replaces), $string);
+        $string = \preg_replace(\array_keys(self::$replaces), ($remove ? '' : self::$replaces), $string);
         if ($extended) {
-            $string = preg_replace(array_keys(self::$replaces_ext), ($remove ? '' : self::$replaces_ext), $string);
+            $string = \preg_replace(\array_keys(self::$replaces_ext), ($remove ? '' : self::$replaces_ext), $string);
         }
         #Remove spaces and dots from the right (spaces on the left are possible
         return mb_rtrim(mb_rtrim(mb_rtrim($string, null, 'UTF-8'), '.', 'UTF-8'), null, 'UTF-8');
